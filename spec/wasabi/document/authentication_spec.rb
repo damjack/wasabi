@@ -5,8 +5,8 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:authentication).read }
 
-    describe '#namespace' do
-      subject { super().namespace }
+    describe '#target_namespace' do
+      subject { super().target_namespace }
       it { should == "http://v1_0.ws.auth.order.example.com/" }
     end
 

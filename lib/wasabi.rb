@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "wasabi/version"
 require "wasabi/document"
 require "wasabi/resolver"
@@ -8,5 +10,4 @@ module Wasabi
   def self.document(document)
     Document.new(document)
   end
-
 end

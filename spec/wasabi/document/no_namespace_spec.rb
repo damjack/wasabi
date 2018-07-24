@@ -5,8 +5,8 @@ describe Wasabi::Document do
 
     subject { Wasabi::Document.new fixture(:no_namespace).read }
 
-    describe '#namespace' do
-      subject { super().namespace }
+    describe '#target_namespace' do
+      subject { super().target_namespace }
       it { should == "urn:ActionWebService" }
     end
 

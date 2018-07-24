@@ -3,9 +3,9 @@ Bundler.require :default, :development
 
 unless RUBY_PLATFORM =~ /java/
   require "simplecov"
-  require "coveralls"
+ #  require "coveralls"
 
-  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+ #  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
   SimpleCov.start do
     add_filter "spec"
   end

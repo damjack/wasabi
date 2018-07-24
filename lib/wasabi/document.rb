@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "nokogiri"
 require "wasabi/resolver"
 require "wasabi/parser"
@@ -30,7 +32,7 @@ module Wasabi
 
     attr_writer :xml
 
-    alias_method :document?, :document
+    alias :document? :document
 
     # Returns the SOAP endpoint.
     def endpoint
@@ -41,12 +43,12 @@ module Wasabi
     attr_writer :endpoint
 
     # Returns the target namespace.
-    def namespace
-      @namespace ||= parser.namespace
+    def target_namespace
+      @target_namespace ||= parser.target_namespace
     end
 
     # Sets the target namespace.
-    attr_writer :namespace
+    attr_writer :target_namespace
 
     # Returns the value of elementFormDefault.
     def element_form_default

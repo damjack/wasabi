@@ -6,7 +6,7 @@ describe Wasabi::Document do
     subject { Wasabi::Document.new fixture(:multiple_namespaces).read }
 
     describe '#namespace' do
-      subject { super().namespace }
+      subject { super().target_namespace }
       it { should == "http://example.com/actions" }
     end
 

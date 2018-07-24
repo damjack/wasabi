@@ -6,7 +6,7 @@ describe Wasabi::Document do
     subject { Wasabi::Document.new fixture(:geotrust).read }
 
     describe '#namespace' do
-      subject { super().namespace }
+      subject { super().target_namespace }
       it { should == "http://api.geotrust.com/webtrust/query" }
     end
 

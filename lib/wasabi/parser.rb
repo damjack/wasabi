@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'uri'
 require 'wasabi/core_ext/string'
 
@@ -27,7 +29,7 @@ module Wasabi
     attr_accessor :document
 
     # Returns the target namespace.
-    attr_accessor :namespace
+    attr_accessor :target_namespace
 
     # Returns a map from namespace identifier to namespace URI.
     attr_accessor :namespaces
@@ -67,8 +69,8 @@ module Wasabi
       element_form_default = schemas.first && schemas.first['elementFormDefault']
       @element_form_default = element_form_default.to_s.to_sym if element_form_default
 
-      namespace = document.root['targetNamespace']
-      @namespace = namespace.to_s if namespace
+      target_namespace = document.root['targetNamespace']
+      @target_namespace = target_namespace.to_s if target_namespace
 
       @namespaces = @document.namespaces.inject({}) do |memo, (key, value)|
         memo[key.sub('xmlns:', '')] = value
@@ -78,8 +80,17 @@ module Wasabi
 
     def parse_endpoint
       if service_node = service
-        endpoint = service_node.at_xpath('.//soap11:address/@location', 'soap11' => SOAP_1_1)
-        endpoint ||= service_node.at_xpath(service_node, './/soap12:address/@location', 'soap12' => SOAP_1_2)
+        endpoint =
+          service_node.at_xpath(
+            './/soap11:address/@location',
+            'soap11' => SOAP_1_1
+          )
+        endpoint ||=
+          service_node.at_xpath(
+            service_node,
+            './/soap12:address/@location',
+            'soap12' => SOAP_1_2
+          )
       end
 
       @endpoint = parse_url(endpoint) if endpoint
@@ -98,12 +109,16 @@ module Wasabi
     end
 
     def parse_messages
-      messages = document.root.element_children.select { |node| node.name == 'message' }
+      messages = document.root.element_children.select {
+        |node| node.name == 'message'
+      }
       @messages = Hash[messages.map { |node| [node['name'], node] }]
     end
 
     def parse_port_types
-      port_types = document.root.element_children.select { |node| node.name == 'portType' }
+      port_types = document.root.element_children.select {
+        |node| node.name == 'portType'
+      }
       @port_types = Hash[port_types.map { |node| [node['name'], node] }]
     end
 
@@ -111,7 +126,9 @@ module Wasabi
       @port_type_operations = {}
 
       @port_types.each do |port_type_name, port_type|
-        operations = port_type.element_children.select { |node| node.name == 'operation' }
+        operations = port_type.element_children.select {
+          |node| node.name == 'operation'
+        }
         @port_type_operations[port_type_name] = Hash[operations.map { |node| [node['name'], node] }]
       end
     end
@@ -163,7 +180,7 @@ module Wasabi
         schema_namespace = schema['targetNamespace']
 
         schema.element_children.each do |node|
-          namespace = schema_namespace || @namespace
+          namespace = schema_namespace || @target_namespace
 
           case node.name
           when 'element'
