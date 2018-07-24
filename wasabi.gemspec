@@ -1,5 +1,7 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path("lib", __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "wasabi/version"
 
 Gem::Specification.new do |s|
@@ -18,8 +20,11 @@ Gem::Specification.new do |s|
   s.add_dependency "httpi",    "~> 2.0"
   s.add_dependency "nokogiri", ">= 1.4.2"
 
-  s.add_development_dependency "rake",  "~> 0.9"
-  s.add_development_dependency "rspec", "~> 2.14"
+  s.add_development_dependency "bundler", "~> 1.16"
+  s.add_development_dependency "rake", "~> 10.0"
+  s.add_development_dependency "rspec", "~> 3.0"
+  s.add_development_dependency "rubocop", "0.57.2"
+  s.add_development_dependency "rubocop-rspec", "1.27.0"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
